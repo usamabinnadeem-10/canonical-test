@@ -3,4 +3,5 @@
 This repository uses Vanilla Framework by Canonical
 
 ### How to run the code?
-yarn run watch-css
+1. ```yarn run watch-css```
+2. open the **index.html** file
