@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="./dist/style.css" />
+    <title>Canonical Assessment | Usama</title>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  </head>
+  <body>
+    <div id="blogs-container" class="row"></div>
+
+    <script>
+      async function loadBlogs() {
+        let blogs = await fetch(
+          "https://people.canonical.com/~anthonydillon/wp-json/wp/v2/posts.json"
+        );
+        const json = await blogs.json();
+        return json;
+      }
+
+      const formatDate = (date, format = "D MMMM YYYY") =>
+        dayjs(date).format(format);
+
+      const getTopic = (blog) => {
+        const topicArr = blog._embedded["wp:term"][2];
+        return topicArr.length ? topicArr[0].name : "Cloud and server";
+      };
+
+      const getAuthor = (blog) => blog._embedded.author[0];
+
+      const injectBlogs = (blogs) => {
+        const blogsContainer = document.getElementById("blogs-container");
+        blogsContainer.innerHTML = blogs
+          .map(
+            (blog) => `
+            <div class='col-4 col-medium-2 p-card'>
+                <div class="p-card__content flex-col">
+                    <h5 class="p-muted-heading u-sv1">${getTopic(blog)}</h5>
+                    <hr class="p-divider" />
+                    <img
+                        class="p-card__image"
+                        alt=""
+                        src="${blog.featured_media}"
+                    />
+                    <footer class="p-card__footer flex-col">
+                        <h4><a target='_blank' href="${blog.link}">${
+              blog.title.rendered
+            }</a></h4>
+                        <div class="p-card__footer--block">
+                            <em class="u-sv2">By <a target='_blank' href="${
+                              getAuthor(blog).link
+                            }">${getAuthor(blog).name}</a> on ${formatDate(
+              blog.date
+            )}</em>
+                            <hr class="p-divider" />
+                            <h5>Article</h5>
+                        </div>
+                    </footer>  
+                </div>
+            </div>`
+          )
+          .join("");
+      };
+
+      window.onload = async () => {
+        const blogs = await loadBlogs();
+        injectBlogs(blogs);
+      };
+    </script>
+  </body>
+</html>

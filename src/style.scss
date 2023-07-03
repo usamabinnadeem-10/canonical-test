@@ -1,0 +1,42 @@
+@import "vanilla-framework";
+@include vanilla;
+
+#blogs-container {
+  padding: 2rem 0;
+}
+
+.p-card {
+  border-radius: 0.3rem;
+  border: none;
+  box-shadow: 0px 6px 15px -7px rgba(0, 0, 0, 0.73);
+  border-top: 4px solid #7c355d;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.p-card__content {
+  height: 100%;
+}
+
+.p-card__footer {
+  flex: 1;
+  justify-content: space-between;
+}
+
+hr {
+  border-top: dotted 1px #d4d4d4;
+  background-color: transparent;
+}
+
+.p-card__footer--block > h5 {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+}
+
+.p-divider {
+  margin-bottom: 1rem;
+}
